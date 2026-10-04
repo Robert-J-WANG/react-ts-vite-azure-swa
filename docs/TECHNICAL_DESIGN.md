@@ -51,9 +51,9 @@ Complete the following repository-specific setup before merging the first projec
 2. Copy the resource's Deployment Token into the new repository secret `AZURE_STATIC_WEB_APPS_API_TOKEN`.
 3. Create a working branch from `main`, make the first project change, and open a Pull Request targeting `main`.
 4. Confirm that `Quality`, `Deploy`, and `Deployed smoke test` succeed on that Pull Request.
-5. Create and activate a branch ruleset named `Protect main`, targeting the default branch.
-6. Enable `Restrict deletions`, `Require a pull request before merging`, `Require status checks to pass before merging`, `Require linear history`, and `Block force pushes`.
-7. Add `Quality`, `Deploy`, and `Deployed smoke test` as the required status checks.
+5. Create and activate the `Protect main` branch ruleset described in Section 9.4, targeting the default branch.
+6. Confirm that the ruleset requires `Quality`, `Deploy`, and `Deployed smoke test` and allows only Squash merging.
+7. Confirm that the Pull Request remains ready to merge after the ruleset becomes active.
 8. Squash Merge the Pull Request and confirm that `Production deploy` and `Production smoke test` succeed.
 
 The project files and workflows come from the template. The Azure resource, repository secret, and ruleset belong to the new repository and must be configured there.
@@ -288,6 +288,28 @@ Deployed smoke test
 
 `Close Preview` and the Production jobs are not Pull Request required checks.
 
+### 9.4 Default-branch ruleset
+
+Each repository created from the template configures its own branch ruleset with these settings:
+
+- Ruleset name: `Protect main`;
+- enforcement status: `Active`;
+- target: the repository's default branch;
+- bypass list: empty;
+- `Restrict deletions`: enabled;
+- `Block force pushes`: enabled;
+- `Require linear history`: enabled;
+- `Require a pull request before merging`: enabled;
+- required approvals: `0`;
+- additional review requirements: disabled;
+- allowed merge methods: `Squash` only;
+- `Require status checks to pass`: enabled;
+- `Require branches to be up to date before merging`: disabled;
+- `Do not require status checks on creation`: disabled;
+- required status checks: `Quality`, `Deploy`, and `Deployed smoke test`.
+
+Ruleset IDs, repository identifiers, and status-check integration IDs are repository-specific and are not part of the reusable configuration.
+
 ## 10. Security boundaries
 
 - No real deployment token, deployed application URL, or Azure resource identifier is committed.
@@ -316,4 +338,5 @@ The template is complete when the following criteria pass:
 - Production deploy and Production smoke test succeed from the current `main` commit;
 - an active `Protect main` ruleset targets the default branch;
 - the ruleset restricts deletions, requires Pull Requests and linear history, and blocks force pushes;
-- the ruleset requires `Quality`, `Deploy`, and `Deployed smoke test`.
+- the ruleset has no bypass actors or approval requirement and permits only Squash merging;
+- the ruleset requires `Quality`, `Deploy`, and `Deployed smoke test` without requiring the branch to be up to date before merging.
