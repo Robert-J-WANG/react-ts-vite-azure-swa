@@ -26,6 +26,12 @@ npm run test:e2e
 npm run check
 ```
 
+## Environment variables
+
+Only variables prefixed with `VITE_` are available to browser code. Treat those values as public.
+
+Use `.env.example` for safe example values. Keep local values in `.env.local`, and never use a `VITE_` variable for a token or other secret.
+
 ## Create a project
 
 1. Select **Use this template** on GitHub and create a new repository from the default branch.
