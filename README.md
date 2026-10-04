@@ -44,6 +44,8 @@ Use `.env.example` for safe example values. Keep local values in `.env.local`, a
 8. Require the `Quality`, `Deploy`, and `Deployed smoke test` status checks.
 9. Squash Merge the Pull Request and confirm that `Production deploy` and `Production smoke test` succeed.
 
+GitHub creates an initial commit on `main` when a repository is created from the template. That push starts Production Delivery before the Azure resource and secret can be configured. A failed initial Production Delivery is expected; after step 3, rerun it from the Actions tab.
+
 ## Repository secret
 
 The workflows require this GitHub Actions repository secret:
